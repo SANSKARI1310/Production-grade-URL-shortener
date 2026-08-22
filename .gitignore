@@ -35,3 +35,15 @@ out/
 
 ### VS Code ###
 .vscode/
+.classpath
+.project
+.settings/
+
+### Java / Compiled Output ###
+*.class
+*.jar
+*.war
+*.ear
+*.log
+bin/
+out/

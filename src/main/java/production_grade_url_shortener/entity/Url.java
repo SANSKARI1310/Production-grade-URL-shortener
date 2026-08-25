@@ -69,6 +69,10 @@ public class Url {
     {
         return isActive;
     }
+    public boolean isExpired()
+    {
+        return expiresAt != null && Instant.now().isAfter(expiresAt);
+    }
     
 
 }

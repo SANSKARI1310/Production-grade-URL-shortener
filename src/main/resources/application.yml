@@ -3,13 +3,21 @@ spring:
     name: production-grade-url-shortener
   datasource:
     url: jdbc:postgresql://localhost:5432/url_shortener
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-
+    username: postgres
+    password: postgres
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2
-
   jpa:
     hibernate:
       ddl-auto: validate
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  mvc:
+    problemdetails:
+      enabled: true
+
+snowflake:
+  worker-id: 1
+  datacenter-id: 1

@@ -1,10 +1,13 @@
 package production_grade_url_shortener.util;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Base62Encoder {
   
     private static final String charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final int BASE = 62;
-    public static String encode(long value)
+    public  String encode(long value)
     {
         if(value <0)
         {
@@ -16,14 +19,14 @@ public class Base62Encoder {
         long temp = value;
         while(temp!=0)
         {
-            int rem=(int)temp%BASE;
+            int rem=(int)(temp%BASE);
             temp=temp/BASE;
             builder.append(charset.charAt(rem));
         }
         return builder.reverse().toString();
     }
 
-    public static long decode(String value)
+    public long decode(String value)
     {
         if(value == null || value.isEmpty())
         {

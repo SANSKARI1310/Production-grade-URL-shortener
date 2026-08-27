@@ -36,6 +36,9 @@ dependencies {
     testImplementation 'org.testcontainers:postgresql:1.19.8'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    // Rate Limiting
+    implementation 'com.bucket4j:bucket4j-core:8.10.0'
+
 
 }
 

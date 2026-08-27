@@ -73,6 +73,9 @@ public class Url {
     {
         return expiresAt != null && Instant.now().isAfter(expiresAt);
     }
-    
+    public void setOriginalUrl(String originalUrl)
+    {
+        this.originalUrl = originalUrl;
+    }
 
 }

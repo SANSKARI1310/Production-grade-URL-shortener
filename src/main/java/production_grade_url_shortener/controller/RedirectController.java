@@ -31,7 +31,7 @@ public class RedirectController {
         String originalUrl = urlService.getDestinationUrl(shortcode);
         String ipAddress = request.getHeader("X-Forwarded-For");
         if(ipAddress == null) ipAddress = request.getRemoteAddr();
-        eventPublisher.publishEvent(new UrlClickEvent(shortcode , ipAddress , Instant.now()));
+        eventPublisher.publishEvent(new UrlClickEvent(originalUrl, shortcode , ipAddress , Instant.now()));
 
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(originalUrl)).build();
     }

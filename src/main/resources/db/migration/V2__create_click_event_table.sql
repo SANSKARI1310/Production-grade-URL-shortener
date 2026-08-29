@@ -1,6 +1,7 @@
 CREATE TABLE click_event
 (
     ID BIGINT PRIMARY KEY,
+    short_code VARCHAR(20) NOT NULL,
     original_url VARCHAR(255) NOT NULL,
     ip_address VARCHAR(45) ,
     clicked_at TIMESTAMP NOT NULL

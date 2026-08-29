@@ -1,27 +1,43 @@
 spring:
   application:
     name: production-grade-url-shortener
-  datasource:
-    url: jdbc:postgresql://localhost:5432/url_shortener
-    username: postgres
-    password: postgres
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
+
   jpa:
     hibernate:
       ddl-auto: validate
+    open-in-view: false
+
   flyway:
     enabled: true
-    baseline-on-migrate: true
-  mvc:
-    problemdetails:
-      enabled: true
+
+  datasource:
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
   data:
     redis:
-      host: localhost
-      port: 6379
+      timeout: 2s
+
+server:
+  shutdown: graceful
+
+spring.lifecycle:
+  timeout-per-shutdown-phase: 20s
 
 snowflake:
-  worker-id: 1
-  datacenter-id: 1
+  worker-id: ${SNOWFLAKE_WORKER_ID:1}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      probes:
+        enabled: true

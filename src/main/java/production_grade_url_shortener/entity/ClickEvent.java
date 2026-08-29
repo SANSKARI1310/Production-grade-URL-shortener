@@ -12,7 +12,9 @@ public class ClickEvent {
     @Id
     private Long id;
 
-    
+    @Column(name = "short_code" , nullable = false)
+    private String shortCode;
+
     @Column(name = "original_url" , nullable = false)
     private String originalUrl;
     
@@ -27,9 +29,10 @@ public class ClickEvent {
 
         }
     
-    public ClickEvent(Long id , String originalUrl , String ipAddress ,  Instant clickedAt)
+    public ClickEvent(Long id ,String shortCode,String originalUrl , String ipAddress ,  Instant clickedAt)
     {
         this.id = Objects.requireNonNull(id);
+        this.shortCode = Objects.requireNonNull(shortCode);
         this.originalUrl = Objects.requireNonNull(originalUrl);
         this.ipAddress = ipAddress;
         this.clickedAt = Objects.requireNonNull(clickedAt);

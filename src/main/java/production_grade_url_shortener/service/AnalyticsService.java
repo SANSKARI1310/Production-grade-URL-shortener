@@ -37,6 +37,7 @@ public class AnalyticsService {
         {
             ClickEvent click = new ClickEvent(
               idGenerator.generateId(),
+              event.shortcode(),
               event.originalUrl(),
               event.ipAddress(),
               event.timestamp()

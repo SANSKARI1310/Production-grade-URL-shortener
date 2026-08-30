@@ -26,7 +26,7 @@ public class RedisUrlCache {
 
     public void setNotFound(String shortcode , Duration ttl)
     {
-        redisTemplate.opsForValue().set(shortcode , NOT_FOUND, ttl);
+        redisTemplate.opsForValue().set(key(shortcode) , NOT_FOUND, ttl);
     }
     public void evict(String shortcode)
     {

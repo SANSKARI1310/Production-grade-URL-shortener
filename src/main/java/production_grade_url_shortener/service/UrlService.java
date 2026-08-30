@@ -5,17 +5,18 @@ import java.time.Instant;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import production_grade_url_shortener.dto.CreateUrlRequest;
 import production_grade_url_shortener.dto.CreateUrlResponse;
+import production_grade_url_shortener.dto.UpdateUrlRequest;
+import production_grade_url_shortener.dto.UpdateUrlResponse;
 import production_grade_url_shortener.entity.Url;
+import production_grade_url_shortener.exceptions.ResourceNotFoundException;
+import production_grade_url_shortener.exceptions.UrlNotFoundException;
 import production_grade_url_shortener.repository.UrlRepository;
 import production_grade_url_shortener.util.Base62Encoder;
 import production_grade_url_shortener.util.IdGenerator;
-import production_grade_url_shortener.exceptions.ResourceNotFoundException;
-import production_grade_url_shortener.exceptions.UrlNotFoundException;
 import production_grade_url_shortener.util.UrlValidator;
-import production_grade_url_shortener.dto.UpdateUrlRequest;
-import production_grade_url_shortener.dto.UpdateUrlResponse;
 
 @Service
 public class UrlService {
@@ -50,6 +51,8 @@ public class UrlService {
     {
         Url url = urlRepository.findByShortcode(shortcode).orElseThrow(()-> new ResourceNotFoundException("Shortcode not found"));
         url.setOriginalUrl(urlValidator.validateAndNormalizeUrl(request.getOriginalUrl()));
+        System.out.println("OLD URL: " + url.getOriginalUrl());
+        System.out.println("NEW URL FROM REQUEST: " + request.getOriginalUrl());
         urlRepository.save(url);
         redisUrlCache.evict(shortcode);
         return new UpdateUrlResponse(url.getOriginalUrl() , url.getCreatedAt() , url.getExpiresAt());

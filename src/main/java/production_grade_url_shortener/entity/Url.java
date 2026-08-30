@@ -19,7 +19,7 @@ public class Url {
     @Column(name = "short_code" , nullable = false , updatable = false , length = 16)
     private String shortcode;
 
-    @Column(name = "original_url" , nullable = false , updatable = false)
+    @Column(name = "original_url" , nullable = false)
     private String originalUrl;
 
     @Column(name = "created_at" , nullable = false , updatable = false)

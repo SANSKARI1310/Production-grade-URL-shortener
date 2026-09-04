@@ -2,6 +2,7 @@ package production_grade_url_shortener.event;
 import java.time.Instant;
 
 public record UrlClickEvent( 
+    String eventId,
     String originalUrl,
     String shortcode,
     String ipAddress,

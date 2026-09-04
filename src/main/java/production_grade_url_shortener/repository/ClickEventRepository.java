@@ -5,4 +5,5 @@ import production_grade_url_shortener.entity.ClickEvent;
 
 public interface ClickEventRepository extends JpaRepository<ClickEvent , Long>{
     
+    boolean existsByEventId(String eventId);
 }

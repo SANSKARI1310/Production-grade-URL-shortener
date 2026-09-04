@@ -13,6 +13,7 @@ import production_grade_url_shortener.event.UrlClickEvent;
 import production_grade_url_shortener.service.UrlService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.ApplicationEventPublisher;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/r")
@@ -29,11 +30,12 @@ public class RedirectController {
     public ResponseEntity<Void> redirect(@PathVariable String shortcode , HttpServletRequest request)
     {
         String originalUrl = urlService.getDestinationUrl(shortcode);
+        String eventId = UUID.randomUUID().toString();
         String ipAddress = request.getHeader("X-Forwarded-For");
         String userAgent = request.getHeader("User-Agent");
         String referer = request.getHeader("Referer");
         if(ipAddress == null) ipAddress = request.getRemoteAddr();
-        eventPublisher.publishEvent(new UrlClickEvent(originalUrl, shortcode , ipAddress , userAgent, referer,Instant.now()));
+        eventPublisher.publishEvent(new UrlClickEvent(eventId, originalUrl, shortcode , ipAddress , userAgent, referer,Instant.now()));
 
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(originalUrl)).build();
     }

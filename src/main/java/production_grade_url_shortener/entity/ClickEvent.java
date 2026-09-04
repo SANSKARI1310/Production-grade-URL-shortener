@@ -12,6 +12,9 @@ public class ClickEvent {
     @Id
     private Long id;
 
+    @Column(name ="event-id" , nullable = false)
+    private String eventId;
+
     @Column(name = "short_code" , nullable = false)
     private String shortCode;
 
@@ -35,9 +38,10 @@ public class ClickEvent {
 
         }
     
-    public ClickEvent(Long id ,String shortCode,String originalUrl , String ipAddress , String userAgent , String referer , Instant clickedAt)
+    public ClickEvent(Long id ,String eventId ,String shortCode,String originalUrl , String ipAddress , String userAgent , String referer , Instant clickedAt)
     {
         this.id = Objects.requireNonNull(id);
+        this.eventId = Objects.requireNonNull(eventId);
         this.shortCode = Objects.requireNonNull(shortCode);
         this.originalUrl = Objects.requireNonNull(originalUrl);
         this.ipAddress = ipAddress;
@@ -50,6 +54,10 @@ public class ClickEvent {
     public Long getId()
     {
         return id;
+    }
+    public String getEventId()
+    {
+        return eventId;
     }
     public String getOriginalUrl()
     {

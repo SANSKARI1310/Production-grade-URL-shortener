@@ -27,17 +27,23 @@ public class AnalyticsService {
     @Transactional
     public void handleUrlClick(UrlClickEvent event)
     {
-            ClickEvent click = new ClickEvent(
-              idGenerator.generateId(), 
-              event.shortcode(),
-              event.originalUrl(),
-              event.ipAddress(),
-              event.userAgent(),
-              event.referer(),
-              event.timestamp()
-             );
-             clickEventRepository.save(click);
-             log.debug("Persisted click event from kafka for the code {}" , event.shortcode());
+        if(clickEventRepository.existsByEventId(event.eventId()))
+        {
+            log.debug("Event with id {} already exists" , event.eventId());
+            return;
+        }
+        ClickEvent click = new ClickEvent(
+        idGenerator.generateId(), 
+        event.eventId(),
+        event.shortcode(),
+        event.originalUrl(),
+        event.ipAddress(),
+        event.userAgent(),
+        event.referer(),
+        event.timestamp()
+        );
+        clickEventRepository.save(click);
+        log.debug("Persisted click event from kafka for the code {}" , event.shortcode());
         log.info("Kafka consumer tracked -- Code: {} , Ip: {} , TimeStamp: {}" , event.shortcode() , event.ipAddress() , event.timestamp());
     }
 

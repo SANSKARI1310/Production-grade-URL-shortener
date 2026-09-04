@@ -30,8 +30,10 @@ public class RedirectController {
     {
         String originalUrl = urlService.getDestinationUrl(shortcode);
         String ipAddress = request.getHeader("X-Forwarded-For");
+        String userAgent = request.getHeader("User-Agent");
+        String referer = request.getHeader("Referer");
         if(ipAddress == null) ipAddress = request.getRemoteAddr();
-        eventPublisher.publishEvent(new UrlClickEvent(originalUrl, shortcode , ipAddress , Instant.now()));
+        eventPublisher.publishEvent(new UrlClickEvent(originalUrl, shortcode , ipAddress , userAgent, referer,Instant.now()));
 
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(originalUrl)).build();
     }

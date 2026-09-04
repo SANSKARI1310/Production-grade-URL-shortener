@@ -39,6 +39,9 @@ dependencies {
     // Rate Limiting
     implementation 'com.bucket4j:bucket4j-core:8.10.0'
 
+    //KAFKA
+    implementation 'org.springframework.kafka:spring-kafka'
+
 
 }
 

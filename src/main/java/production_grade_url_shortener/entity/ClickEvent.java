@@ -21,6 +21,12 @@ public class ClickEvent {
     @Column(name = "ip_address" )
     private String ipAddress;
 
+    @Column(name = "user_agent")
+    private String userAgent;
+
+    @Column(name = "referer")
+    private String referer;
+
     @Column(name = "clicked_at" , nullable = false)
     private Instant clickedAt;
 
@@ -29,12 +35,14 @@ public class ClickEvent {
 
         }
     
-    public ClickEvent(Long id ,String shortCode,String originalUrl , String ipAddress ,  Instant clickedAt)
+    public ClickEvent(Long id ,String shortCode,String originalUrl , String ipAddress , String userAgent , String referer , Instant clickedAt)
     {
         this.id = Objects.requireNonNull(id);
         this.shortCode = Objects.requireNonNull(shortCode);
         this.originalUrl = Objects.requireNonNull(originalUrl);
         this.ipAddress = ipAddress;
+        this.userAgent = userAgent;
+        this.referer = referer;
         this.clickedAt = Objects.requireNonNull(clickedAt);
 
     }
@@ -50,6 +58,14 @@ public class ClickEvent {
     public String getIpAddress()
     {
         return ipAddress;
+    }
+    public String getUserAgent()
+    {
+        return userAgent;
+    }
+    public String getReferer()
+    {
+        return referer;
     }
     public Instant getClickedAt()
     {

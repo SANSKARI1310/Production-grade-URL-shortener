@@ -5,5 +5,7 @@ public record UrlClickEvent(
     String originalUrl,
     String shortcode,
     String ipAddress,
+    String userAgent,
+    String referer,
     Instant timestamp
 ){}

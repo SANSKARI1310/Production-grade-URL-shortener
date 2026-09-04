@@ -4,6 +4,8 @@ CREATE TABLE click_event
     short_code VARCHAR(20) NOT NULL,
     original_url VARCHAR(255) NOT NULL,
     ip_address VARCHAR(45) ,
+    user_agent VARCHAR(255),
+    referer VARCHAR(255),
     clicked_at TIMESTAMP NOT NULL
 );
 

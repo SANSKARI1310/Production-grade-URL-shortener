@@ -12,7 +12,7 @@ public class ClickEvent {
     @Id
     private Long id;
 
-    @Column(name ="event-id" , nullable = false)
+    @Column(name ="event_id" , nullable = false)
     private String eventId;
 
     @Column(name = "short_code" , nullable = false)

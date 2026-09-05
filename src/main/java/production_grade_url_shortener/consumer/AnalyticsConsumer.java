@@ -18,7 +18,7 @@ public class AnalyticsConsumer {
         this.analyticsService = analyticsService;
     }
 
-    @KafkaListener(topics = "url-clicks" , containerFactory = "analyticsExecutor")
+    @KafkaListener(topics = "url-clicks" )
     public void consume(UrlClickEvent event)
     {
         try
@@ -28,7 +28,7 @@ public class AnalyticsConsumer {
         }
         catch(Exception e)
         {
-            log.error("Error while persisting click event for the code {}" ,event.shortcode());
+            log.error("Error while persisting click event for the code {}" ,event.shortcode() ,e);
         }
     }
 

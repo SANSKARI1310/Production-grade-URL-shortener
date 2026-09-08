@@ -27,5 +27,10 @@ more about async mapping
 introducing kafka
 asynchronous processing + event-driven architecture + decoupling
 
+phase 3 is over 
+
+Phase 4 — Security, Authentication & Distributed Rate Limiting 🚧
+
+Harden the URL shortener for real-world security threats and horizontal scaling.
 
 Will update the readme as we progress in this project.

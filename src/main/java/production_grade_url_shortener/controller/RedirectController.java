@@ -12,19 +12,20 @@ import java.time.Instant;
 import production_grade_url_shortener.event.UrlClickEvent;
 import production_grade_url_shortener.service.UrlService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.context.ApplicationEventPublisher;
 import java.util.UUID;
+import production_grade_url_shortener.service.AnalyticsProducer;
 
 @RestController
 @RequestMapping("/r")
 public class RedirectController {
     
     private UrlService urlService;
-    private final ApplicationEventPublisher eventPublisher;
-    public RedirectController(UrlService urlService , ApplicationEventPublisher eventPublisher)
+    private final AnalyticsProducer analyticsProducer;
+    
+    public RedirectController(UrlService urlService , AnalyticsProducer analyticsProducer)
     {
+        this.analyticsProducer = analyticsProducer;
         this.urlService = urlService;
-        this.eventPublisher = eventPublisher;
     }
     @GetMapping("/{shortcode}")
     public ResponseEntity<Void> redirect(@PathVariable String shortcode , HttpServletRequest request)
@@ -35,7 +36,7 @@ public class RedirectController {
         String userAgent = request.getHeader("User-Agent");
         String referer = request.getHeader("Referer");
         if(ipAddress == null) ipAddress = request.getRemoteAddr();
-        eventPublisher.publishEvent(new UrlClickEvent(eventId, originalUrl, shortcode , ipAddress , userAgent, referer,Instant.now()));
+        analyticsProducer.publishEvent(new UrlClickEvent(eventId, originalUrl, shortcode , ipAddress , userAgent, referer,Instant.now()));
 
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(originalUrl)).build();
     }

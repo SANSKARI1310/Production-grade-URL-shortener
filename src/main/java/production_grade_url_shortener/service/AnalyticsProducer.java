@@ -10,9 +10,9 @@
     public class AnalyticsProducer {
     
         private static final Logger log = LoggerFactory.getLogger(AnalyticsProducer.class);
-        private final KafkaTemplate<String , Object> kafkaTemplate;
+        private final KafkaTemplate<String , UrlClickEvent> kafkaTemplate;
         private final String TOPIC = "url-clicks";
-        public AnalyticsProducer(KafkaTemplate<String , Object> kafkaTemplate)
+        public AnalyticsProducer(KafkaTemplate<String , UrlClickEvent> kafkaTemplate)
         {
             this.kafkaTemplate = kafkaTemplate;
         }

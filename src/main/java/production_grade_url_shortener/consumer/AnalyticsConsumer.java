@@ -21,15 +21,10 @@ public class AnalyticsConsumer {
     @KafkaListener(topics = "url-clicks" )
     public void consume(UrlClickEvent event)
     {
-        try
-        {
+    
             analyticsService.handleUrlClick(event);
             log.debug("Persisted click event from kafka for the code {}" , event.shortcode());
-        }
-        catch(Exception e)
-        {
-            log.error("Error while persisting click event for the code {}" ,event.shortcode() ,e);
-        }
+        
     }
 
 }

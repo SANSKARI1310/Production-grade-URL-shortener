@@ -44,6 +44,8 @@ dependencies {
     //implementation 'com.fasterxml.jackson.core:jackson-databind' i don't need thgis bcz of sprnig init jackson at start y defsult
     //implementation 'com.fasterxml.jackson.core:jackson-databind'
 
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
 }
 

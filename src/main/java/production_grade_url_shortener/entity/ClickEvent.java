@@ -9,7 +9,7 @@ import java.util.Objects;
 @Table(name = "click_event")
 public class ClickEvent {
     
-    @Id
+    @Id 
     private Long id;
 
     @Column(name ="event_id" , nullable = false)

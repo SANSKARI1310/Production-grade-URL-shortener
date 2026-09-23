@@ -21,19 +21,20 @@ public class ApiKeyAuthenticationFilter extends OncePerRequestFilter {
     {
         this.apiKeyRepository = apiKeyRepository;
     }
+    @Override 
     public void doFilterInternal(HttpServletRequest request , HttpServletResponse response , FilterChain filterChain) throws ServletException , IOException
     {
         String apiKey = request.getHeader("X-API-KEY");
         if(apiKey == null)
         {
-            response.setStatus(401);
+            filterChain.doFilter(request, response);
             return;
         }
         String hashedApiKey = hashApiKey(apiKey);
-        Optional<ApiKey> apiKeyOptional = apiKeyRepository.findByApiHashAndIsActiveApi(hashedApiKey);
+        Optional<ApiKey> apiKeyOptional = apiKeyRepository.findByApiHashAndIsActiveApi(hashedApiKey,true);
         if(!apiKeyOptional.isPresent())
         {
-            response.setStatus(401);
+            filterChain.doFilter(request, response);
             return;
         }
         ApiKey validKey = apiKeyOptional.get();

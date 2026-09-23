@@ -6,6 +6,6 @@ import production_grade_url_shortener.entity.ApiKey;
 
 public interface ApiKeyRepository extends JpaRepository<ApiKey , Long>{
 
-    Optional<ApiKey> findByApiHashAndIsActiveApi(String apiHash);
+    Optional<ApiKey> findByApiHashAndIsActiveApi(String apiHash , boolean isActiveApi);
 
 }

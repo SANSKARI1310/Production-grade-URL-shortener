@@ -6,16 +6,15 @@
 -- ARGV[5]: TTL for the key in seconds to prevent stale memory leaks
 
 local key = KEYS[1]
-local capacity = ARGV[1]
-local refill_rate = ARGV[2]
-local cost = ARGV[3]
+local capacity = tonumber(ARGV[1])
+local refill_rate = tonumber(ARGV[2])
+local cost = tonumber(ARGV[3])
 local now = tonumber(ARGV[4])
 local ttl =tonumber(ARGV[5])
 
-local data = redis.call("HMGET", key, "tokens", "last_refereshed")
+local data = redis.call("HMGET", key, "tokens", "last_refreshed")
 local curr_tokens = tonumber(data[1])
 local last_refreshed = tonumber(data[2])
-
 if curr_tokens == nil then
     curr_tokens = capacity
     last_refreshed = now
@@ -28,11 +27,11 @@ end
 
 if curr_tokens >= cost then
     curr_tokens = curr_tokens - cost
-    redis.call("HSET", key, "tokens", curr_tokens, "last_refereshed", last_refreshed)
+    redis.call("HSET", key, "tokens", curr_tokens, "last_refreshed", last_refreshed)
     redis.call("EXPIRE", key, ttl)
-    return {1, math.floor(current_tokens)}
+    return {1, math.floor(curr_tokens)}
 else
-    redis.call("HSET", key, "tokens", curr_tokens, "last_refereshed", last_refreshed)
+    redis.call("HSET", key, "tokens", curr_tokens, "last_refreshed", last_refreshed)
     redis.call("EXPIRE", key, ttl)
-    return {0, math.floor(current_tokens)}
+    return {0, math.floor(curr_tokens)}
 end

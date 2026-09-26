@@ -23,6 +23,12 @@ public class ApiKey {
     @Column(name = "user_id" , nullable = false)
     private String userId;
 
+    @Column(name = "name" , nullable = false , length = 64)
+    private String name;
+
+    @Column(name = "key_prefix" , nullable = false , length = 16)
+    private String keyPrefix;
+
     @Column(name = "is_active_api" , nullable = false)
     private boolean isActiveApi;
 
@@ -35,13 +41,15 @@ public class ApiKey {
     protected ApiKey() {
     }
 
-    public ApiKey( String apiHash , String userId , boolean isActiveApi , Instant createdAt , Instant lastUsedAt)
+    public ApiKey( String apiHash , String userId , boolean isActiveApi , Instant createdAt , Instant lastUsedAt , String name , String keyPrefix)
     {
         this.apiHash = apiHash;
         this.userId = userId;
         this.isActiveApi = isActiveApi;
         this.createdAt = createdAt;
         this.lastUsedAt = lastUsedAt;
+        this.name = name;
+        this.keyPrefix = keyPrefix;
     }
 
     public Long getId() {
@@ -62,9 +70,17 @@ public class ApiKey {
     public Instant getLastUsedAt() {
         return lastUsedAt;
     }
+    public String getName() {
+        return name;
+    }
+    public String getKeyPrefix() {
+        return keyPrefix;
+    }
     public void setLastUsedAt(Instant lastUsedAt) {
         this.lastUsedAt = lastUsedAt;
     }
-
-    
+    public void deactivate()
+    {
+        this.isActiveApi = false;
+    }   
 }

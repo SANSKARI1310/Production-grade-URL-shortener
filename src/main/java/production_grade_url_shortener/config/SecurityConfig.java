@@ -11,15 +11,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import production_grade_url_shortener.repository.ApiKeyRepository;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import production_grade_url_shortener.filter.ApiKeyAuthenticationFilter;
+import production_grade_url_shortener.security.ApiKeyGenerator;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     
     private final ApiKeyRepository apiKeyRepository;
-    public SecurityConfig(ApiKeyRepository apiKeyRepository)
+    private final ApiKeyGenerator apiKeyGenerator;
+    public SecurityConfig(ApiKeyRepository apiKeyRepository , ApiKeyGenerator apiKeyGenerator)
     {
         this.apiKeyRepository = apiKeyRepository;
+        this.apiKeyGenerator = apiKeyGenerator;
     }
     
     @Bean
@@ -33,13 +36,14 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize ->{
             authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
             authorize.requestMatchers("/r/**").permitAll();
+            authorize.requestMatchers("/api/auth/**").permitAll();
             authorize.requestMatchers("/api/urls/**").authenticated();
             authorize.requestMatchers("/api/analytics/**").authenticated();
             authorize.anyRequest().authenticated();
 
         });
 
-        http.addFilterBefore(new ApiKeyAuthenticationFilter(apiKeyRepository), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new ApiKeyAuthenticationFilter(apiKeyRepository, apiKeyGenerator), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

@@ -47,9 +47,9 @@ public class UrlService {
     }
 
     @Transactional
-    public UpdateUrlResponse updateUrl(String shortcode , UpdateUrlRequest request)
+    public UpdateUrlResponse updateUrl(String shortcode , UpdateUrlRequest request , String userId)
     {
-        Url url = urlRepository.findByShortcode(shortcode).orElseThrow(()-> new ResourceNotFoundException("Shortcode not found"));
+        Url url = urlRepository.findByUserIdAndShortcode(shortcode , userId).orElseThrow(()-> new ResourceNotFoundException("Shortcode not found"));
         url.setOriginalUrl(urlValidator.validateAndNormalizeUrl(request.getOriginalUrl()));
         System.out.println("OLD URL: " + url.getOriginalUrl());
         System.out.println("NEW URL FROM REQUEST: " + request.getOriginalUrl());
@@ -59,9 +59,9 @@ public class UrlService {
     }
 
     @Transactional
-    public void deleteUrl(String shortcode)
+    public void deleteUrl(String shortcode , String userId)
     {
-        Url url = urlRepository.findByShortcode(shortcode).orElseThrow(()-> new ResourceNotFoundException("Shortcode not found"));
+        Url url = urlRepository.findByUserIdAndShortcode(userId , shortcode).orElseThrow(()-> new ResourceNotFoundException("Shortcode not found"));
         urlRepository.delete(url);
         redisUrlCache.evict(shortcode);;
 

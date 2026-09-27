@@ -1,5 +1,7 @@
 package production_grade_url_shortener.controller;
 
+import java.security.Principal;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import jakarta.validation.Valid;
 import production_grade_url_shortener.dto.CreateUrlRequest;
 import production_grade_url_shortener.dto.CreateUrlResponse;
@@ -34,14 +35,15 @@ public class UrlController {
         return ResponseEntity.status(HttpStatus.CREATED).body(urlService.createUrl(request));
     } 
     @PatchMapping("/{shortcode}")
-    public ResponseEntity<UpdateUrlResponse> updateUrl(@PathVariable String shortcode , @Valid @RequestBody UpdateUrlRequest request)
+    public ResponseEntity<UpdateUrlResponse> updateUrl(@PathVariable String shortcode , @Valid @RequestBody UpdateUrlRequest request , Principal principal)
     {
+        UpdateUrlResponse response = urlService.updateUrl(shortcode , request , principal.getName());
         return ResponseEntity.status(HttpStatus.OK).body(urlService.updateUrl(shortcode , request));
     }   
     @DeleteMapping("/{shortcode}")
-    public ResponseEntity<Void> deleteUrl(@PathVariable String shortcode)
+    public ResponseEntity<Void> deleteUrl(@PathVariable String shortcode , Principal principal)
     {
-        urlService.deleteUrl(shortcode);
+        urlService.deleteUrl(shortcode , principal.getName());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

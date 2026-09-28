@@ -8,7 +8,6 @@ public class CreateUrlResponse {
     private Instant createdAt;
     private Instant expiresAt;
 
-
     public CreateUrlResponse(String shortcode , String originalUrl , Instant createdAt , Instant expiresAt)
     {
         this.shortcode = shortcode;

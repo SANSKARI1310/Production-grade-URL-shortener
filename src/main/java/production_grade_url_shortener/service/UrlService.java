@@ -36,12 +36,12 @@ public class UrlService {
         this.redisUrlCache = redisUrlCache;
     }
 
-    public CreateUrlResponse createUrl(CreateUrlRequest request)
+    public CreateUrlResponse createUrl(CreateUrlRequest request , String userId)
     {
         long id = idGenerator.generateId();
         String shortCode = base62Encoder.encode(id);
         String normalizedUrl = urlValidator.validateAndNormalizeUrl(request.getOriginalUrl());
-        Url url = new Url(id , shortCode , normalizedUrl , Instant.now() , request.getExpiresAt());
+        Url url = new Url(id , shortCode , normalizedUrl , Instant.now() , request.getExpiresAt(), userId);
         urlRepository.save(url);
         return new CreateUrlResponse(shortCode , request.getOriginalUrl() , url.getCreatedAt(), url.getExpiresAt() );
     }

@@ -30,15 +30,15 @@ public class UrlController {
             this.urlService = urlService;
         }
     @PostMapping
-    public ResponseEntity<CreateUrlResponse> createUrl( @Valid @RequestBody CreateUrlRequest request)
+    public ResponseEntity<CreateUrlResponse> createUrl( @Valid @RequestBody CreateUrlRequest request , Principal principal)
     {
-        return ResponseEntity.status(HttpStatus.CREATED).body(urlService.createUrl(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(urlService.createUrl(request , principal.getName()));
     } 
     @PatchMapping("/{shortcode}")
     public ResponseEntity<UpdateUrlResponse> updateUrl(@PathVariable String shortcode , @Valid @RequestBody UpdateUrlRequest request , Principal principal)
     {
         UpdateUrlResponse response = urlService.updateUrl(shortcode , request , principal.getName());
-        return ResponseEntity.status(HttpStatus.OK).body(urlService.updateUrl(shortcode , request));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }   
     @DeleteMapping("/{shortcode}")
     public ResponseEntity<Void> deleteUrl(@PathVariable String shortcode , Principal principal)

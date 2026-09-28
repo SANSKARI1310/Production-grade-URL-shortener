@@ -19,6 +19,9 @@ public class Url {
     @Column(name = "short_code" , nullable = false , updatable = false , length = 16)
     private String shortcode;
 
+    @Column(name = "user_id" , nullable = false)
+    private String userId;
+
     @Column(name = "original_url" , nullable = false)
     private String originalUrl;
 
@@ -34,7 +37,7 @@ public class Url {
     protected Url() {
     }
 
-    public Url(Long id , String shortcode , String originalUrl , Instant createdAt , Instant expiresAt)
+    public Url(Long id , String shortcode , String originalUrl , Instant createdAt , Instant expiresAt , String userId)
     {
         this.id = Objects.requireNonNull(id ,"Id should not be null");
         this.shortcode = Objects.requireNonNull(shortcode ,"Shortcode should not be null");
@@ -42,6 +45,7 @@ public class Url {
         this.createdAt = createdAt!=null?createdAt:Instant.now();
         this.expiresAt = expiresAt;
         this.isActive = true;
+        this.userId = userId;
 
     }
 
@@ -73,9 +77,13 @@ public class Url {
     {
         return expiresAt != null && Instant.now().isAfter(expiresAt);
     }
+    public String getUserId()
+    {
+        return userId;
+    }
     public void setOriginalUrl(String originalUrl)
     {
         this.originalUrl = originalUrl;
     }
-
+    
 }

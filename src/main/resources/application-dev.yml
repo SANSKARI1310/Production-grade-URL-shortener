@@ -1,3 +1,5 @@
+app:
+  domain: localhost
 spring:
   config:
     activate:

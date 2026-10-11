@@ -18,13 +18,22 @@ public class AnalyticsConsumer {
         this.analyticsService = analyticsService;
     }
 
-    @KafkaListener(topics = "url-clicks" )
+    @KafkaListener(topics = "url-clicks",
+        groupId = "url-analytics",
+        concurrency = "${spring.kafka.listener.concurrency:3}"
+     )
     public void consume(UrlClickEvent event)
     {
-    
+        try
+        {
             analyticsService.handleUrlClick(event);
-            log.debug("Persisted click event from kafka for the code {}" , event.shortcode());
-        
+            log.debug("Successfully handled analytics event for shortcode {} " , event.shortcode());
+        }
+        catch(Exception ex)
+        {
+            log.error("persisted click failed for the shortcode {}" , event.shortcode());
+            throw ex;
+        }
     }
 
 }
